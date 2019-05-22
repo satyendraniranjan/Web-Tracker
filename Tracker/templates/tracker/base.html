@@ -1,0 +1,36 @@
+{% load static %}
+<html>
+    <head>
+	<link href="http://fonts.googleapis.com/css?family=Lato:100italic,100,300italic,300,400italic,400,700italic,700,900italic,900" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}" />
+
+
+        <link rel="icon" href="./demo_icon.png" type="image/png" sizes="16x16">
+        <title>SNiranjan Tracker</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{% static '/css/tracker.css' %}">
+    </head>
+    <body>
+       <div class="page-header" style="position: fixed; width: 100%;">
+        {% if user.is_authenticated %}
+        <a href="{% url 'tracker_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+        <p><a style="color: #d7dc16; text-decoration: underline;font-size: 13px;letter-spacing: 1;" href="{% url 'logout' %}">Logout</a></p>
+        <p><a style="color: #d7dc16; text-decoration: underline;font-size: 13px;letter-spacing: 1;" href="{% url 'tracker_list' %}">Tracker List</a></p>
+      {% endif %}
+           <img class="logo" src="{% static '/demo_icon.png' %}">
+           <h1 class="heading"><a href="/">SNiranjan tracker</a></h1>
+        </div>
+    <div class="container" style="position: absolute;top: 27%; left: 10%;">
+        <div class="row">
+             <marquee direction="right"><h1>Welcome {{ user.username }}!</h1></marquee>
+            <div class="col-md-12">
+            {% block content %}
+            {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    </body>
+</html>

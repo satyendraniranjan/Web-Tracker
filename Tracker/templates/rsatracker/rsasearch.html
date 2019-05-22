@@ -1,0 +1,335 @@
+{% extends 'tracker/trackerbase.html' %}
+
+{% block content %}
+
+<form method="GET" value="{{request.GET.q}}">
+<input type="text" name="q" value="{{request.GET.q}}" placeholder="search cascade / user"/>
+<input type="submit" name="submit" value="Search"/>
+</form>
+
+    {% if submitbutton == 'Search' and request.GET.q != '' %}
+    {% if results %}
+<p style="font-size:20px">Results for <b>{{ request.GET.q }}</b></p>
+<br/><br/>
+
+
+<script>
+			// requires jquery library
+			jQuery(document).ready(function() {
+			   jQuery(".main-table").clone(true).appendTo('#table-scroll').addClass('clone');
+			 });
+		</script>
+
+		<style>
+
+			.table-scroll {
+				position:relative;
+				max-width:1500px;
+				margin:auto;
+				overflow:hidden;
+				border:1px solid #000;
+				font size="6"
+			}
+
+			tr:nth-child(even) {
+			background-color: #FFFF00;
+			}
+
+			.table-wrap {
+				width:100%;
+				overflow:auto;
+				font size="6"
+				position:fixed;
+			}
+			.table-scroll table {
+				width:100%;
+				margin:auto;
+				border-collapse:separate;
+				border-spacing:0;
+				font size="6"
+
+			}
+			.table-scroll th, .table-scroll td {
+				padding:5px 10px;
+				border:1px solid #000;
+				background:#fff;
+				white-space:nowrap;
+				vertical-align:top;
+				color:black;
+
+			}
+			.table-scroll thead{
+
+
+
+				background:#f9f9f9;
+				color:green;
+
+
+			}
+			.clone {
+				position:absolute;
+				top:0;
+				left:0;
+				pointer-events:none;
+
+			}
+			.clone th, .clone td {
+				visibility:hidden
+
+			}
+			.clone td, .clone th {
+				border-color:transparent
+
+			}
+			.clone tbody th {
+				visibility:visible;
+				color:green;
+
+			}
+			.clone .fixed-side {
+				border:1px solid #000;
+				background:#eee;
+				visibility:visible;
+
+			}
+			.clone thead, .clone tfoot{background:transparent;}
+
+			.fixed_header{
+				width: 400px;
+				table-layout: fixed;
+				border-collapse: collapse;
+
+			}
+
+			.fixed_header tbody{
+			  display:block;
+			  width: 100%;
+			  overflow: auto;
+			  height: 100px;
+			}
+
+			.fixed_header thead tr {
+			   display: block;
+			}
+
+			.fixed_header thead {
+			  background: black;
+			  color:#fff;
+
+			}
+
+			.fixed_header th, .fixed_header td {
+			  padding: 5px;
+			  text-align: left;
+			  width: 100px;
+
+			}
+
+</style>
+
+<p style="text-align: center; font-size: 20px; color: black;">RSA Tracker
+<a style="color: #0000A0" class="download_link" href="{% url 'ExportRsaTracker1' %}">Export</a></p>
+
+
+		<div id="table-scroll" class="table-scroll">
+  <div class="table-wrap">
+    <table class="main-table" style="font-size:10px">
+      <thead>
+        <tr>
+           <th class="fixed-side" scope="col">System Date</th>
+            <th class="fixed-side" scope="col">User Date</th>
+            <th class="fixed-side" scope="col">User Name</th>
+            <th class="fixed-side" scope="col">Cascade</th>
+            <th class="fixed-side" scope="col">Technology</th>
+            <th class="fixed-side" scope="col">Assignee</th>
+            <th>Type</th>
+            <th>Market</th>
+            <th>eNB/BTS</th>
+            <th>LSM/BSM</th>
+            <th>CSMS</th>
+            <th>FE Name</th>
+            <th>Activity</th>
+            <th>Activity Status</th>
+            <th>Site Status pre Activity</th>
+            <th>Site Status post Activity</th>
+            <th>RET</th>
+            <th>OAR Date</th>
+            <th>OAC Date</th>
+            <th>Lock/Unlock Verified BY</th>
+            <th>Verifier Status</th>
+            <th>SV Actualization</th>
+            <th>Other Remark</th>
+            <th>Site Type</th>
+            <th>Schedule Name</th>
+            <th>Fail/Pass</th>
+            <th>Fail Reason</th>
+            <th>RTRV SON SO Status</th>
+            <th>Ticket Raised For Issue</th>
+            <th>Ticket No</th>
+            <th>TVW Available in SV</th>
+            <th>TVW Available FMCC Database</th>
+            <th>ACD Status</th>
+            <th>TVW Remark</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+       {% for item in results %}
+            <th class="fixed-side" scope="col">{{item.created_date}}</th>
+            <th class="fixed-side" scope="col">{{item.Date}}</th>
+            {% if user.is_authenticated %}
+                {% if user == item.User_Name %}
+                    <th class="fixed-side" scope="col">{% if user.is_staff %}<a href="{% url 'tracker_edit1' pk=item.pk %}">{% endif %}{{ item.User_Name }}</a></th>
+                {% else %}
+                    <th class="fixed-side" scope="col">{% if user.is_staff %}<a href="{% url 'tracker_edit' pk=item.pk %}">{% endif %}{{ item.User_Name }}</a></th>
+                {% endif %}
+            {% endif %}
+            <!--<th><a class="btn btn-default" href="{% url 'tracker_edit1' pk=item.pk %}"><p>Edit User: <span class="glyphicon glyphicon-pencil"></span></p></a></th>-->
+            <!--<th><a class="btn btn-default" href="{% url 'tracker_edit' pk=item.pk %}"><p>Edit Team:<span class="glyphicon glyphicon-pencil"></span></p></a></th>-->
+            <!--<th class="fixed-side" scope="col"><a href="{% url 'tracker_detail' pk=item.pk %}">{{ item.admin }}</a></th>-->
+
+            <th class="fixed-side" scope="col">{{item.cascade}}</th>
+            <th class="fixed-side" scope="col">{{item.Technology}}</th>
+            {% if user.is_authenticated %}
+                {% if user == item.User_Name %}
+                    <th class="fixed-side" scope="col"><a href="{% url 'tracker_edit1' pk=item.pk %}">{{item.Assignee}}</a></th>
+                {% else %}
+                    <th class="fixed-side" scope="col"><a href="{% url 'tracker_edit' pk=item.pk %}">{{item.Assignee}}</a></th>
+                {% endif %}
+            {% endif %}
+            <td>{{item.Type}}
+            <td>{{item.Market}}</td>
+            <td>{{item.eNB}}</td>
+            <td>{{item.LSM}}</td>
+            <td>{{item.CSMS}}</td>
+            <td>{{item.FE_Name}}</td>
+            <td>{{item.Activity}}</td>
+            <td>{{item.Activity_status}}</td>
+            <td>{{item.Site_Status_pre_Activity}}</td>
+            <td>{{item.Site_Status_post_Activity}}</td>
+            <td>{{item.RET}}</td>
+            <td>{{item.OAR_Date}}</td>
+            <td>{{item.OAC_Date}}</td>
+            <td>{{item.Lock_Unlock_Verified_By}}
+            <td>{{item.Verify_Status}}</td>
+            <td>{{item.SV_Actualization}}</td>
+            <td>{{item.Other_Remarks}}</td>
+            <td>{{item.SiteType}}</td>
+            <td>{{item.Schedule_Name}}</td>
+            <td>{{item.Fail}}</td>
+            <td>{{item.Fail_Reason}}</td>
+            <td>{{item.RTRV_SON_SO_status}}</td>
+            <td>{{item.Ticket_Raised_For_Issue}}</td>
+            <td>{{item.Ticket_no}}</td>
+            <td>{{item.TVW_Available}}</td>
+            <td>{{item.TVW_Available_FMCC_Database}}</td>
+            <td>{{item.Acd_Status}}</td>
+            <td>{{item.TVW_Related_Remarks}}</td>
+
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+      {% else %}
+            No search results for this query
+      {% endif %}
+  </div>
+</div>
+</div>
+
+
+<!--<table tr style="width:100%">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Cascade</th>
+            <th>Technology</th>
+            <th>Type</th>
+            <th>Bandwidth Checked From LSM</th>
+            <th>Market</th>
+            <th>eNB/BTS</th>
+            <th>LSM/BSM</th>
+            <th>Created Date</th>
+            <th>CSMS</th>
+            <th>FE Name</th>
+            <th>Mode of Communication</th>
+            <th>Activity</th>
+            <th>Activity Status</th>
+            <th>Site Status pre Activity</th>
+            <th>Site Status post Activity</th>
+            <th>E-Link Status of BH0 for CDU30</th>
+            <th>MJ Obejct Marked</th>
+            <th>RET</th>
+            <th>Alarms Preventing RET Conf</th>
+            <th>Frequency(EARFCN) Checked From LSM/BSM</th>
+            <th>IP Route/IP Address/VLAN ID Retrieved and Checked for CDU30 2.5</th>
+            <th>VOLTE MME IP Configured</th>
+            <th>Review LATP Complete</th>
+            <th>Remarks</th>
+            <th>OAR Date</th>
+            <th>OAC Date</th>
+            <th>Lock/Unlock Verified BY</th>
+            <th>Verifier Status</th>
+            <th>Final Comments</th>
+
+        </tr>
+    </thead>
+     {% for item in results %}
+
+    <tr>
+
+        <td>{{item.created_date}}</td>
+        <td>{{ item.admin }}</td>
+        <td>{{item.cascade}}</td>
+        <td>{{item.Technology}}</td>
+        <td>{{item.Type}}
+        <td>{{item.Bandwidth_Checked_From_LSM}}</td>
+        <td>{{item.Market}}</td>
+        <td>{{item.eNB}}</td>
+        <td>{{item.LSM}}</td>
+        <td>{{item.CSMS}}</td>
+        <td>{{item.FE_Name}}</td>
+        <td>{{item.Cic_Engineer}}
+        <td>{{item.Activity}}</td>
+        <td>{{item.Activity_status}}</td>
+        <td>{{item.Site_Status_pre_Activity}}</td>
+        <td>{{item.Site_Status_post_Activity}}</td>
+        <td>{{item.E_Link_Status_of_BH0_for_CDU30}}</td>
+        <td>{{item.MJ_Object_Marked}}</td>
+        <td>{{item.RET}}</td>
+        <td>{{item.Alarms_Preventing_RET_Config}}</td>
+        <td>{{item.Frequency_Earfcn_Checked_from_LSM_BSM}}</td>
+        <td>{{item.IP_Route_or_IP_Address}}</td>
+        <td>{{item.Volte_MME_IP_Config}}
+        <td>{{item.Review_LATP_Complete}}</td>
+        <td>{{item.Remarks}}</td>
+        <td>{{item.OAR_Date}}</td>
+        <td>{{item.OAC_Date}}</td>
+        <td>{{item.Lock_Unlock_Verified_By}}
+        <td>{{item.Verify_Status}}</td>
+        <td>{{item.Final_Comments}}</td>
+
+    </tr>
+    {% endfor %}
+
+</table>-->
+<!--<script>
+    var tableOffset = $("#table-1").offset().top;
+    var $header = $("#table-1 > thead").clone();
+    var $fixedHeader = $("#header-fixed").append($header);
+
+    $(window).bind("scroll", function() {
+        var offset = $(this).scrollTop();
+
+        if (offset >= tableOffset && $fixedHeader.is(":hidden")) {
+            $fixedHeader.show();
+        }
+        else if (offset < tableOffset) {
+            $fixedHeader.hide();
+        }
+    });
+</script>-->
+<!--{% endif %}-->
+{% endblock %}

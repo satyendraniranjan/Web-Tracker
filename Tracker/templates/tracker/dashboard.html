@@ -1,0 +1,28 @@
+{% extends 'tracker/trackerbase.html' %}
+
+
+{% block content %}
+
+  <table class="table"  style="font-size:13px; font-weight: bold; font-family: Arial; color:blue;background:white;">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Samsung</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for board in boards %}
+        <tr>
+          <td>
+            <a href="{% url 'dashboard1' %}">{{ board.name }}</a>
+            <small class="text-muted d-block">{{ board.description }}</small>
+          </td>
+          <td class="align-middle">
+            {{ board.get_tracker_count }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

@@ -1,0 +1,167 @@
+{% extends 'tracker/trackerbase.html' %}
+
+{% block content %}
+
+
+   <script>
+			// requires jquery library
+			jQuery(document).ready(function() {
+			   jQuery(".main-table").clone(true).appendTo('#table-scroll').addClass('clone');
+			 });
+		</script>
+		<style>
+
+			.table-scroll {
+				position:relative;
+				max-width:1500px;
+				margin:auto;
+				overflow:hidden;
+				border:1px solid #000;
+				font size="6"
+			}
+
+			tr:nth-child(even) {
+			background-color: #FFFF00;
+			}
+
+			.table-wrap {
+				width:100%;
+				overflow:auto;
+				font size="6"
+				position:fixed;
+			}
+			.table-scroll table {
+				width:100%;
+				margin:auto;
+				border-collapse:separate;
+				border-spacing:0;
+				font size="6"
+
+			}
+			.table-scroll th, .table-scroll td {
+				padding:5px 10px;
+				border:1px solid #000;
+				background:#fff;
+				white-space:nowrap;
+				vertical-align:top;
+				color:black;
+
+			}
+			.table-scroll thead{
+
+
+
+				background:#f9f9f9;
+				color:green;
+
+
+			}
+			.clone {
+				position:absolute;
+				top:0;
+				left:0;
+				pointer-events:none;
+
+			}
+			.clone th, .clone td {
+				visibility:hidden
+
+			}
+			.clone td, .clone th {
+				border-color:transparent
+
+			}
+			.clone tbody th {
+				visibility:visible;
+				color:green;
+
+			}
+			.clone .fixed-side {
+				border:1px solid #000;
+				background:#eee;
+				visibility:visible;
+
+			}
+			.clone thead, .clone tfoot{background:transparent;}
+
+			.fixed_header{
+				width: 400px;
+				table-layout: fixed;
+				border-collapse: collapse;
+
+			}
+
+			.fixed_header tbody{
+			  display:block;
+			  width: 100%;
+			  overflow: auto;
+			  height: 100px;
+			}
+
+			.fixed_header thead tr {
+			   display: block;
+			}
+
+			.fixed_header thead {
+			  background: black;
+			  color:black;
+
+			}
+
+			.fixed_header th, .fixed_header td {
+			  padding: 5px;
+			  text-align: left;
+			  width: 100px;
+
+			}
+
+            a:hover {
+               color: brown;
+               font-size:120%;
+              }
+
+
+		</style>
+
+
+<div id="table-scroll" class="table-scroll">
+    <div class="table-wrap">
+
+    <table class="main-table" style="font-size:11px;">
+         <thead>
+            <tr>
+            <th>Created_date</th>
+            <th>SPOC</th>
+            <th>Cascade</th>
+            <th>Technology</th>
+            <th>User_Name</th>
+
+
+        </tr>
+
+        </thead>
+        {% for item in latest_assignment_list %}
+        <tbody>
+        <tr>
+            <th>{{item.created_date}}</th>
+            {% if user.is_authenticated %}
+
+            <th>{% if user.is_staff %}<a href="{% url 'assignment_detail' pk=item.pk %}">{% endif %} {{item.admin}}</a></th>
+            {% endif %}
+            <th>{{item.cascade}}</th>
+            <th>{{item.Technology}}</th>
+            <th>{{item.User_Name}}</th>
+
+        </tr>
+
+        </tbody>
+       {% endfor %}
+
+    </table>
+
+</div>
+</div>
+
+
+
+{% endblock %}

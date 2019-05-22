@@ -1,0 +1,57 @@
+{% extends 'tracker/trackerbase.html' %}
+
+
+{% block content %}
+  <table class="table" style="font-size:13px; font-weight: bold; font-family: Arial; color:blue;background:white;">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Employee</th>
+        <th>C&I</th>
+        <th>Troubleshoot</th>
+        <th>LATP Testing</th>
+        <th>FATP Testing</th>
+        <th>Pre-Integration</th>
+        <th>Total Count</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for board in boards %}
+        <tr>
+          <td>
+            <a>{{ board.user }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+
+          <td>
+            <a>{{ board.get_activity_count1 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+          <td>
+            <a>{{ board.get_activity_count2 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+          <td>
+            <a>{{ board.get_activity_count3 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+          <td>
+            <a>{{ board.get_activity_count4 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+          <td>
+            <a>{{ board.get_activity_count5 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+
+          <td class="align-middle">
+            {{ board.get_tracker_count }}
+
+
+          </td>
+
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

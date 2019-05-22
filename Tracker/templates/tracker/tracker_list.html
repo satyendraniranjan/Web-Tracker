@@ -1,0 +1,249 @@
+{% extends 'tracker/trackerbase.html' %}
+
+{% block content %}
+
+
+   <script>
+			// requires jquery library
+			jQuery(document).ready(function() {
+			   jQuery(".main-table").clone(true).appendTo('#table-scroll').addClass('clone');
+			 });
+		</script>
+
+<script>
+    window.setTimeout(function () {
+    location.href = "{{ tracker_list }}";
+}, 120000);
+// refresh/redirect after 2 min.
+
+
+</script>
+
+
+
+
+
+  <style>
+
+			.table-scroll {
+				position:relative;
+				max-width:1500px;
+				margin:auto;
+				overflow:hidden;
+				border:1px solid #000;
+				font size="6"
+			}
+
+			tr:nth-child(even) {
+			background-color: #FFFF00;
+			}
+
+			.table-wrap {
+				width:100%;
+				overflow:auto;
+				font size="6"
+				position:fixed;
+			}
+			.table-scroll table {
+				width:100%;
+				margin:auto;
+				border-collapse:separate;
+				border-spacing:0;
+				font size="6"
+
+			}
+			.table-scroll th, .table-scroll td {
+				padding:5px 10px;
+				border:1px solid #696969;
+				background:#fff;
+				white-space:nowrap;
+				vertical-align:top;
+				color:black;
+
+			}
+			.table-scroll thead{
+
+
+
+				background:#f9f9f9;
+				color:green;
+
+
+			}
+			.clone {
+				position:absolute;
+				top:0;
+				left:0;
+				pointer-events:none;
+
+			}
+			.clone th, .clone td {
+				visibility:hidden
+
+			}
+			.clone td, .clone th {
+				border-color:transparent
+
+			}
+			.clone tbody th {
+				visibility:visible;
+				color:green;
+
+			}
+			.clone .fixed-side {
+				border:1px solid #696969;
+				border-width: thin;
+				background:#eee;
+				visibility:visible;
+
+			}
+			.clone thead, .clone tfoot{background:blue;}
+
+			.fixed_header{
+				width: 400px;
+				table-layout: fixed;
+				border-collapse: collapse;
+
+			}
+
+			.fixed_header tbody{
+			  display:block;
+			  width: 100%;
+			  overflow: auto;
+			  height: 100px;
+			}
+
+			.fixed_header thead tr {
+			   display: block;
+			}
+
+			.fixed_header thead {
+			  background: #696969;
+			  color:black;
+
+			}
+
+			.fixed_header th, .fixed_header td {
+			  padding: 5px;
+			  text-align: left;
+			  width: 100px;
+
+			}
+
+            a:hover {
+               color: black;
+               font-size:120%;
+              }
+
+
+		</style>
+
+
+<p style="text-align: center; font-size: 20px;color: black;">Post-Com Tracker
+<a style="color: #0000A0;" class="download_link" href="{% url 'some_view' %}">Export</a></p>
+<!--<p>Search icon on a button:
+   &lt;!&ndash; <button type="button" class="btn btn-default"><a href="{% url 'search' %}" class="top-left"><span
+            class="glyphicon glyphicon-search"></span>Search</a></button>&ndash;&gt;-->
+
+<div  id="table-scroll" class="table-scroll">
+  <div  class="table-wrap">
+         <table class="main-table" style="font-size:11.5px; font-weight: bold; font-family: Arial; color:blue;">
+         <thead  style="color:blue; background-color: red;">
+            <tr>
+            <th class="fixed-side" scope="col">System Date</th>
+            <th class="fixed-side" scope="col">User Date</th>
+            <th class="fixed-side" scope="col">User Name</th>
+            <th class="fixed-side" scope="col">Cascade</th>
+            <th class="fixed-side" scope="col">Technology</th>
+            <th class="fixed-side" scope="col">Assignee</th>
+            <th>Type</th>
+            <th>Bandwidth</th>
+            <th>Market</th>
+            <th>eNB/BTS</th>
+            <th>LSM/BSM</th>
+            <th>CSMS</th>
+            <th>FE Name</th>
+            <th>Mode of Communication</th>
+            <th>Activity</th>
+            <th>Activity Status</th>
+            <th>Site Status pre Activity</th>
+            <th>Site Status post Activity</th>
+            <th>E-Link Status of BH0 for CDU30</th>
+            <th>MJ Obejct Marked</th>
+            <th>RET</th>
+            <th>Alarms Preventing RET Conf</th>
+            <th>Frequency(EARFCN) Checked From LSM/BSM</th>
+            <th>IP Route/IP Address/VLAN ID Retrieved and Checked for CDU30 2.5</th>
+            <th>VOLTE MME IP Configured</th>
+            <th>Review LATP Complete</th>
+            <th>Remarks</th>
+            <th>OAR Date</th>
+            <th>OAC Date</th>
+            <th>Lock/Unlock Verified BY</th>
+            <th>Verifier Status</th>
+            <th>Final Comments</th>
+        </tr>
+
+        </thead>
+        {% for item in latest_tracker_list %}
+        <tbody>
+        <tr>
+            <th class="fixed-side" scope="col">{{item.created_date}}</th>
+            <th class="fixed-side" scope="col">{{item.Date}}</th>
+            {% if user.is_authenticated %}
+                {% if user == item.admin %}
+                    <th class="fixed-side" scope="col">{% if user.is_staff %}<a href="{% url 'tracker_edit1' pk=item.pk %}" onclick=" window.open('{% url 'tracker_edit1' pk=item.pk %}', '_blank');return false;">{% endif %}{{ item.admin }}</a></th>
+                {% else %}
+                    <th class="fixed-side" scope="col">{% if user.is_staff %}<a href="{% url 'tracker_edit' pk=item.pk %}" onclick=" window.open('{% url 'tracker_edit' pk=item.pk %}', '_blank');return false;">{% endif %}{{ item.admin }}</a></th>
+                {% endif %}
+            {% endif %}
+            <!--<th><a class="btn btn-default" href="{% url 'tracker_edit1' pk=item.pk %}"><p>Edit User: <span class="glyphicon glyphicon-pencil"></span></p></a></th>-->
+            <!--<th><a class="btn btn-default" href="{% url 'tracker_edit' pk=item.pk %}"><p>Edit Team:<span class="glyphicon glyphicon-pencil"></span></p></a></th>-->
+            <!--<th class="fixed-side" scope="col"><a href="{% url 'tracker_detail' pk=item.pk %}">{{ item.admin }}</a></th>-->
+
+            <th class="fixed-side" scope="col">{{item.cascade}}</th>
+            <th class="fixed-side" scope="col">{{item.Technology}}</th>
+            {% if user.is_authenticated %}
+                {% if user == item.admin %}
+                    <th class="fixed-side" scope="col"><a href="{% url 'tracker_edit1' pk=item.pk %}"onclick=" window.open('{% url 'tracker_edit1' pk=item.pk %}', '_blank');return false;">{{item.Assignee}}</a></th>
+                {% else %}
+                    <th class="fixed-side" scope="col"><a href="{% url 'tracker_edit' pk=item.pk %}" onclick=" window.open('{% url 'tracker_edit' pk=item.pk %}', '_blank');return false;">{{item.Assignee}}</a></th>
+                {% endif %}
+            {% endif %}
+            <td>{{item.Type}}
+            <td>{{item.Bandwidth_Checked_From_LSM}}</td>
+            <td>{{item.Market}}</td>
+            <td>{{item.eNB}}</td>
+            <td>{{item.LSM}}</td>
+            <td>{{item.CSMS}}</td>
+            <td>{{item.FE_Name}}</td>
+            <td>{{item.Mode_of_Communication}}</td>
+            <td>{{item.Activity}}</td>
+            <td>{{item.Activity_status}}</td>
+            <td>{{item.Site_Status_pre_Activity}}</td>
+            <td>{{item.Site_Status_post_Activity}}</td>
+            <td>{{item.E_Link_Status_of_BH0_for_CDU30}}</td>
+            <td>{{item.MJ_Object_Marked}}</td>
+            <td>{{item.RET}}</td>
+            <td>{{item.Alarms_Preventing_RET_Config}}</td>
+            <td>{{item.Frequency_Earfcn_Checked_from_LSM_BSM}}</td>
+            <td>{{item.IP_Route_or_IP_Address}}</td>
+            <td>{{item.Volte_MME_IP_Config}}
+            <td>{{item.Review_LATP_Complete}}</td>
+            <td>{{item.Remarks}}</td>
+            <td>{{item.OAR_Date}}</td>
+            <td>{{item.OAC_Date}}</td>
+            <td>{{item.Lock_Unlock_Verified_By}}
+            <td>{{item.Verify_Status}}</td>
+            <td>{{item.Final_Comments}}</td>
+        </tr>
+
+        </tbody>
+       {% endfor %}
+
+    </table>
+</div>
+</div>
+</div>
+{% endblock %}
+

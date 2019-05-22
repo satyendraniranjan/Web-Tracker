@@ -1,0 +1,94 @@
+{% extends 'alu/alutrackerbase.html' %}
+
+
+{% block content %}
+  <table class="table" style="font-size:13px; font-weight: bold; font-family: Arial; color:blue;background:white;">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Employee</th>
+        <th>Cabinet Swap</th>
+        <th>Change In SAMB</th>
+        <th>Health Check</th>
+        <th>LAM Testing</th>
+        <th>LATP/FATP Testing</th>
+        <th>Mini M Decom Macro</th>
+        <th>New Integration</th>
+        <th>LAM Testing</th>
+        <th>Relo Site</th>
+        <th>Technology ADD</th>
+        <th>Trobleshooting</th>
+        <th>Total Count</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for board in boards %}
+        <tr>
+          <td>
+            <a>{{ board.user }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+
+          <td>
+            <a>{{ board.get_activity_count11 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+
+
+          <td>
+            <a>{{ board.get_activity_count1 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+          <td>
+            <a>{{ board.get_activity_count2 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+          <td>
+            <a>{{ board.get_activity_count3 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+          <td>
+            <a>{{ board.get_activity_count4 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+          <td>
+            <a>{{ board.get_activity_count5 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+
+          <td>
+            <a>{{ board.get_activity_count6 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+
+          <td>
+            <a>{{ board.get_activity_count7 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+
+          <td>
+            <a>{{ board.get_activity_count8 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+
+          <td>
+            <a>{{ board.get_activity_count9 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+
+          <td>
+            <a>{{ board.get_activity_count10 }}</a>
+            <!--<small class="text-muted d-block">{{ board.description }}</small>-->
+          </td>
+
+          <td class="align-middle">
+            {{ board.get_tracker_count }}
+
+
+          </td>
+
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,0 +1,211 @@
+{% load static %}
+<html>
+
+   <head>
+
+		  
+		<!-- Latest compiled and minified CSS -->
+	   <title>SatDys</title>
+	   <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static '/css/styles1.css' %}" />
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<script>
+    var tableOffset = $("#table-1").offset().top;
+    var $header = $("#table-1 > thead").clone();
+    var $fixedHeader = $("#header-fixed").append($header);
+
+    $(window).bind("scroll", function() {
+        var offset = $(this).scrollTop();
+
+        if (offset >= tableOffset && $fixedHeader.is(":hidden")) {
+            $fixedHeader.show();
+        }
+        else if (offset < tableOffset) {
+            $fixedHeader.hide();
+        }
+    });
+</script>
+
+<style>
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+</style>
+
+   </head>
+
+   <body>
+   <div class="header" style="background-color: #00BFFF!important;">
+       {% if user.is_authenticated %}
+	   <div class="container">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="/">Home</a>
+		  <!--<a class="navbar-brand" href="{% url 'assignment_list' %}">Assignment</a>-->
+           <div class="dropdown">
+			  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" style="background-color: #1E90FF"
+			  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add Entry
+			  </button>
+			  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+				<!--<a class="dropdown-item" href="{% url 'password_change' %}">Change1 Password</a>-->
+                    <a class="dropdown-item" href="{% url 'alutracker_new' %}" onclick=" window.open('{% url 'alutracker_new' %}', '_blank');return false;">ALU/Nokia Post Com</a>
+                    <a class="dropdown-item" href="{% url 'Alursatracker_new' %}">ALU/Nokia RSA</a>
+                  	<a class="dropdown-item" href="{% url 'aludashboard' %}">Dashboard</a>
+				  <!-- <a class="dropdown-item" href="#">Info2</a>
+                    <a class="dropdown-item" href="#">Info3</a>-->
+
+			  </div>
+			</div>
+
+            <!--<div class="dropdown">
+            <button class="dropbtn">Navbar</button>
+             <div class="dropdown-content">
+                  <a href="#">Logout</a>
+                  <a href="#">Change Password</a>
+                  <a href="#">More Info</a>
+                  <a href="#">Calculator</a>
+             </div>
+          </div>-->
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+		  aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+
+		  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+			  <!--<li class="nav-item active">
+				<a class="nav-link" href="#">Assignment <span class="sr-only">(current)</span></a>
+			  </li>-->
+				<ul></ul>
+			  <li class="nav-item">
+				<!--<a class="nav-link" href="#">Tracker List</a>-->
+
+                  <div class="dropdown" >
+			  <button class="btn btn-secondary dropdown-toggle"  type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #1E90FF">
+				Tracker List
+			  </button>
+			  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+				<a class="dropdown-item" href="{% url 'alutracker_list' %}"onclick=" window.open('{% url 'alutracker_list' %}', '_blank');return false;">ALU/Nokia Post Com Tracker</a>
+				<a class="dropdown-item" href="{% url 'Alursatracker_list' %}">ALU/Nokia RSA Tracker</a>
+			  </div>
+			</div>
+			  </li>
+			  <!--<li class="nav-item">
+				<a class="nav-link" href="{% url 'tracker_new' %}">Add Entry</a>
+			  </li>-->
+				<li class="nav-item">
+				  <!--<a class="nav-link" href="{% url 'about' %}">About</a>-->
+					<a class="nav-link" href="#">About</a>
+			  </li>
+				<li class="nav-item">
+				  <!--<a class="nav-link" href="{% url 'about' %}">About</a>-->
+					<a class="nav-link" href="{% url 'admin:index' %}"onclick=" window.open('{% url 'admin:index' %}', '_blank');return false;">Admin</a>
+			  </li>
+			</ul>
+			 <div class="dropdown">
+			  <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="dropdownMenuButton3" style="background-color: #FFFFFF"
+			  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search Option
+			  </button>
+			  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                    <form class="form-inline my-2 my-lg-0 mr-3" action="{% url 'alusearch' %}" method="GET">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick=" window.open('{% url 'alusearch' %}', '_blank');return false;">AluPostComSearch</button>
+					</form>
+				  	<form class="form-inline my-2 my-lg-0 mr-3" action="#" method="GET">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit" >AluRSASearch</button>
+					</form>
+
+			  </div>
+			</div>
+			<!--<form class="form-inline my-2 my-lg-0 mr-3" action="{% url 'search' %}" method="GET">
+				  &lt;!&ndash;<input class="form-control mr-sm-2" type="text" name="q"  placeholder="Search cascade">&ndash;&gt;
+				&lt;!&ndash;<input type="submit" name="submit" value="Search"/>&ndash;&gt;
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form>-->
+			<div>
+				<ul></ul>
+			</div>
+			<div class="dropdown">
+			  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #1E90FF">
+				{{ request.user }}
+			  </button>
+			  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<!--<a class="dropdown-item" href="{% url 'password_change' %}">Change1 Password</a>-->
+				<a class="dropdown-item" href="{% url 'change_password' %}"onclick=" window.open('{% url 'change_password' %}', '_blank');return false;">Change Password</a>
+				<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                  {% if user.username == 'SatyendraN' %}
+                  <a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a>
+                  <a class="dropdown-item" href="{% url 'password_reset' %}">Password Reset</a>
+                  {% endif %}
+
+			  </div>
+			</div>
+		  </div>
+		</nav>
+
+	  </div>
+   </div>
+
+   {% endif %}
+	{% block content %}
+    {% endblock %}
+
+   <div class="header">
+  {% if user.is_authenticated %}
+  <p style="text-align: center;font-size: 13px;font-weight: bold;">
+   <!-- <marquee direction="right"><h2>Hi {{ user.username }}!</h2></marquee>-->
+
+
+
+</p>
+  {% else %}
+
+	    <p><a style="text-align: center;font-size: 20px;font-weight: bold;">You are not logged in</a></p>
+		<a style="text-align: center;font-size: 20px;font-weight: bold;" href="{% url 'login' %}">Login</a>
+  <!--<p><a href="{% url 'signup' %}">SignUp</a></p>-->
+
+  {% endif %}
+</div>
+
+   </body>
+
+</html>

@@ -1,0 +1,44 @@
+{% extends 'tracker/trackerbase.html' %}
+
+{% block content %}
+<o>
+    <!--<h2>Add Tracker Details</h2>
+    <form method="Post" class="post-form">{% csrf_token %}
+        <table border="1">
+            {{ form }}
+        </table>
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>-->
+<style>
+  th.required { font-weight: bold; }
+
+</style>
+
+<h2 style="font-size:25px">Post-Com Tracker Entry Details</h2>
+<p>All fields marked with an asterisk (*) are required.</p>
+<!--<p>date format yyyy-mm-dd</p>-->
+<form method="Post" class="post-form" novalidate>
+  {% csrf_token %}
+
+  {{ form.non_field_errors }}
+  {% for hidden_field in form.hidden_fields %}
+    {{ hidden_field.errors }}
+    {{ hidden_field }}
+  {% endfor %}
+  <table border="1">
+    {% for field in form.visible_fields %}
+      <tr>
+        <th>{{ field.label_tag }} {% if field.field.required %} * {% endif %}</th>
+        <td>
+          {{ field.errors }}
+          {{ field }}
+          {{ field.help_text }}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <button type="submit">Submit</button>
+</form>
+</o>
+{% endblock %}

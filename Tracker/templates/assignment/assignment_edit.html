@@ -1,0 +1,33 @@
+{% extends 'tracker/trackerbase.html' %}
+
+{% block content %}
+    <h2>Add Assignment</h2>
+
+     <!--<h2>add assignment</h2>-->
+    <form method="Post" class="post-form" novalidate>{% csrf_token %}
+
+       <table border="1">
+            {{ form.as_table }}
+       </table>
+
+        <button type="submit">Save</button>
+    </form>
+
+       <!--<form action="" method="POST">
+          {% csrf_token %}
+        Cascade:<br>
+        <input type="text" name="cascade">
+        <br>
+        Technology:<br>
+        <input type="text" name="technology">
+        <br>
+        Type:<br>
+        <input type="text" name="type">
+        <br>
+        User_Name:<br>
+        <input type="text" name="user_name">
+        <br><br>
+        <input type="submit" value="OK">
+        &lt;!&ndash;<button type="submit">Save</button>&ndash;&gt;
+        </form>-->
+{% endblock %}
