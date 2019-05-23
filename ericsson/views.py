@@ -1,8 +1,8 @@
 from django.shortcuts import redirect
-from ericsson.forms import EricssonPostComTrackerForm
+from ericsson.forms import EricssonPostComTrackerForm,EricsssonRSATrackerForm
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
-from ericsson.models import EricssonPostComTracker
+from ericsson.models import EricssonPostComTracker, EricssonRSATracker
 from django.http import HttpResponse
 import csv
 from django.db.models import Q
@@ -114,3 +114,97 @@ def ericssonpostcomsearch(request):
     else:
         return render(request, 'ericsson/ericssonpostcomsearch.html')
 
+
+
+
+@login_required
+def ericssonrsatracker_new(request):
+    if request.method == "POST":
+        form = EricsssonRSATrackerForm(request.POST)
+        if form.is_valid():
+            rsatracker = form.save(commit=False)
+            rsatracker.admin = request.user
+            rsatracker.created_date = timezone.now()
+            rsatracker.save()
+            return redirect('ericssonrsatracker_list')
+
+    else:
+        form = EricsssonRSATrackerForm
+    return render(request, 'ericsson/rsaericsson/ericssonrsatracker_edit.html', {'form': form})
+
+@login_required
+def ericssonrsatracker_list(request):
+        latest_tracker_list = EricssonRSATracker.objects.order_by('-created_date')
+        context = {
+            'latest_tracker_list': latest_tracker_list,
+       }
+        return render(request, 'rsaericsson/ericsssonrsatracker_list.html', context)
+
+def ericssonExportRsaTracker(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="RSATracker.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['System Date','User Date','User Name','cascade','Technology','Assignee', 'Type', 'Bandwidth_Checked_From_LSM', 'Market', 'eNB', 'LSM', 'CSMS', 'FE_Name','Site_Status_pre_Activity', 'Site_Status_post_Activity','RET','OAR_Date','OAC_Date','Lock_Unlock_Verified_By','SV_Actualization','Other_Remarks','SiteType','Schedule_Name','Fail','Fail_Reason','RTRV_SON_SO_status','Ticket_Raised_For_Issue','Ticket_no','TVW_Available','TVW_Available_FMCC_Database','Acd_Status','TVW_Related_Remarks'])
+
+    latest_tracker_list1 = EricssonRSATracker.objects.order_by('-created_date')
+    for item in latest_tracker_list1:
+        writer.writerow([item.created_date,item.Date,item.User_Name,item.cascade, item.Technology,item.Assignee, item.Type, item.Bandwidth_Checked_From_LSM, item.Market, item.eNB, item.LSM, item.CSMS, item.FE_Name,item.Site_Status_pre_Activity, item.Site_Status_post_Activity,item.RET,item.OAR_Date,item.OAC_Date,item.Lock_Unlock_Verified_By,item.SV_Actualization,item.Other_Remarks,item.SiteType,item.Schedule_Name,item.Fail,item.Fail_Reason,item.RTRV_SON_SO_status,item.Ticket_Raised_For_Issue,item.Ticket_no,item.TVW_Available,item.TVW_Available_FMCC_Database,item.Acd_Status,item.TVW_Related_Remarks])
+
+    return response
+
+@login_required
+def ericssonrsasearch(request):
+    if request.method == 'GET':
+        query = request.GET.get('q')
+
+        submitbutton = request.GET.get('submit')
+
+        if query is not None:
+            lookups = Q(cascade__icontains=query) | Q(User_Name__username__icontains=query)
+
+            results = EricssonRSATracker.objects.filter(lookups).distinct()
+
+            context = {'results': results,
+                       'submitbutton': submitbutton}
+
+            return render(request, 'rsatracker/ericssonrsasearch.html', context)
+
+        else:
+            return render(request, 'rsatracker/ericssonrsasearch.html')
+
+    else:
+        return render(request, 'rsatracker/ericssonrsasearch.html')
+
+@login_required
+def ericssonrsatracker_edit(request, pk):
+    tracker = get_object_or_404(EricssonRSATracker, pk=pk)
+    if request.method == "POST":
+        form = EricsssonRSATrackerForm(request.POST)
+#        form = TrackerForm(request.POST, instance=tracker)
+        if form.is_valid():
+            tracker = form.save(commit=False)
+            tracker.User_Name = request.user
+            tracker.created_date = timezone.now()
+            tracker.save()
+            return redirect('ericssonrsatracker_list')
+    else:
+        form = EricsssonRSATrackerForm(instance=tracker)
+    return render(request, 'rsaericsson/ericssonrsatracker_edit.html', {'form': form})
+
+@login_required
+def ericssonrsatracker_edit1(request, pk):
+    tracker = get_object_or_404(EricssonRSATracker, pk=pk)
+    if request.method == "POST":
+        form = EricsssonRSATrackerForm(request.POST, instance=tracker)
+#        form = TrackerForm(request.POST)
+        if form.is_valid():
+            tracker = form.save(commit=False)
+            tracker.User_Name = request.user
+            tracker.created_date = timezone.now()
+            tracker.save()
+            return redirect('ericssonrsatracker_list')
+    else:
+        form = EricsssonRSATrackerForm(instance=tracker)
+    return render(request, 'rsaericssson/ericssonrsatracker_edit.html', {'form': form})

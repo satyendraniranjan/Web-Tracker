@@ -16,4 +16,6 @@ path('<int:pk>/teamedit/', views.ericssontracker_edit1, name='ericssontracker_ed
 url(r'^export/csv/$', views.ericssonexport, name='ericssonexport'),
 path('search', views.ericssonpostcomsearch, name='ericssonpostcomsearch'),
 
+path('rsa/new', views.ericssonrsatracker_new, name='ericssonrsatracker_new'),
+
 ]

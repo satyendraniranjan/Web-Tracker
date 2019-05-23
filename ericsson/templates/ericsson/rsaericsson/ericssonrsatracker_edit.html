@@ -1,0 +1,38 @@
+{% extends 'ericsson/ericssontrackerbase.html' %}
+
+{% block content %}
+<o>
+
+<style>
+  th.required { font-weight: bold; }
+
+</style>
+
+<h2 style="font-size:25px">Ericsson RSATracker Entry Details</h2>
+<p>All fields marked with an asterisk (*) are required.</p>
+<!--<p>date format yyyy-mm-dd</p>-->
+<form method="Post" class="post-form" novalidate>
+  {% csrf_token %}
+
+  {{ form.non_field_errors }}
+  {% for hidden_field in form.hidden_fields %}
+    {{ hidden_field.errors }}
+    {{ hidden_field }}
+  {% endfor %}
+  <table border="1">
+    {% for field in form.visible_fields %}
+      <tr>
+        <th>{{ field.label_tag }} {% if field.field.required %} * {% endif %}</th>
+        <td>
+          {{ field.errors }}
+          {{ field }}
+          {{ field.help_text }}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <button type="submit">Submit</button>
+</form>
+</o>
+{% endblock %}

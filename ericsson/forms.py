@@ -1,4 +1,4 @@
-from ericsson.models import EricssonPostComTracker
+from ericsson.models import EricssonPostComTracker, EricssonRSATracker
 from django import forms
 
 
@@ -41,4 +41,32 @@ class EricssonPostComTrackerForm(forms.ModelForm):
         self.fields['Site_Status_pre_Activity'].label = "Cell State before Activity"
         self.fields['Site_Status_post_Activity'].label = "Cell State after Activity"
 
+
+class EricsssonRSATrackerForm(forms.ModelForm):
+
+
+
+
+    def __init__(self,*args, **kwargs):
+        super(EricsssonRSATrackerForm, self).__init__(*args, **kwargs)
+        self.fields['TVW_Available'].label = "TVW Available in SV"
+        self.fields['Market'].required = True
+        self.fields['Technology'].required = True
+
+
+    def clean(self, *args, **kwargs):
+        cascade = self.cleaned_data.get('cascade')
+
+
+
+
+    class Meta:
+        model = EricssonRSATracker
+        fields = ('Date','Assignee','cascade','Market', 'Technology',  'eNB', 'ENM', 'LATP_Date', 'MME_Pool', 'IP_OAM','Remark', 'RSA_Hold_Reason', 'Site_Last_Logged_Date', 'Volte_Soft_Launch','Site_Status_pre_Activity', 'Site_Status_post_Activity','OAR_Date','OAC_Date','Final_RSA_Status','Latest_Software_Version', 'Site_Unlock_Status', 'Lock_Unlock_Remark', 'TVW_Available','TVW_Available_FMCC_Database','Acd_Status','Notification_To_RSD','TVW_Related_Remarks','RSD_Airboss_Mail','Augment_ID')
+        widgets = {
+            'Date': DateInput(),
+            'OAC_Date': DateInput(),
+            'OAR_Date': DateInput(),
+            'LATP_Date': DateInput(),
+        }
 

@@ -315,9 +315,9 @@ class EricssonPostComTracker(models.Model):
 
 
 
-class RSATracker(models.Model):
+class EricssonRSATracker(models.Model):
         admin = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,default='',null=True,related_name='ericssonrsaadmin')
-        ericrsa = models.ForeignKey(Ericsson_Count, related_name='ericssonrsa', on_delete=models.CASCADE)
+        board = models.ForeignKey(Ericsson_Count, related_name='ericssonrsa', on_delete=models.CASCADE)
         cascade = models.CharField(max_length=255, default='',blank=True)
         Assignee = models.ForeignKey(EricssonProfile, on_delete=models.CASCADE, related_name='ericssonrsaprofile')
         Technology_CHOICES1 = (
@@ -328,35 +328,14 @@ class RSATracker(models.Model):
                 ('2.5 TDD', '2.5 TDD'),
                 ('1900 800 CDMA', '1900/800 CDMA'),
                 ('1900 800 FDD', '1900/800 FDD'),
-                ('1900 700 CDMA', '1900/700 CDMA'),
-                ('700 FDD', '700 FDD'),
-                ('800 FDD CDMA', '800 FDD/CDMA'),
+                ('2.5 TDD mMIMO', '2.5 TDD mMIMO'),
+                ('2.5 5G', '2.5 5G'),
+
         )
 
         Technology = models.CharField(max_length=255, choices=Technology_CHOICES1,blank=True)
 
-        Type_CHOICES8 = (
-                ('CDU10', 'CDU10'),
-                ('CDU20', 'CDU20'),
-                ('CDU30', 'CDU30'),
-                ('NA', 'NA'),
-        )
 
-        Type = models.CharField(max_length=255, choices=Type_CHOICES8,blank=True)
-
-        Bandwidth_Checked_From_LSM_CHOICES10 = (
-                ('3Mhz', '3Mhz'),
-                ('5Mhz', '5Mhz'),
-                ('10Mhz', '10Mhz'),
-                ('20Mhz', '20Mhz'),
-                ('5+10Mhz 5Mhz', '5+10Mhz/5Mhz'),
-                ('5+10Mhz 3Mhz', '5+10Mhz/3Mhz'),
-                ('10+5Mhz 5Mhz', '10+5Mhz/5Mhz'),
-                ('10+5Mhz 3Mhz', '10+5Mhz/3Mhz'),
-                ('NA', 'NA'),
-        )
-
-        Bandwidth_Checked_From_LSM = models.CharField(max_length=255, choices=Bandwidth_Checked_From_LSM_CHOICES10,blank=True)
 
         market = (
                 ('Kansas', 'Kansas'),
@@ -461,79 +440,101 @@ class RSATracker(models.Model):
 
         Market = models.CharField(max_length=255, choices=market,blank=True)
 
-        Assignee = models.CharField(max_length=255, default='',blank=True)
-        eNB = models.CharField(max_length=255, default='',blank=True)
-        LSM = models.CharField(max_length=255, default='',blank=True)
-        SiteType = models.CharField(max_length=255, default='',blank=True)
-        Schedule_Name = models.CharField(max_length=255, default='',blank=True)
-        Fail = models.CharField(max_length=255, default='',blank=True)
-        Fail_Reason = models.CharField(max_length=255, default='',blank=True)
+        eNB = models.CharField(max_length=255, default='', blank=True)
+        ENM = models.CharField(max_length=255, default='', blank=True)
+        IP_OAM = models.CharField(max_length=255, default='', blank=True)
+        RSA_Hold_Reason = models.CharField(max_length=255, default='', blank=True)
+        Remark = models.CharField(max_length=255, default='', blank=True)
 
-        Activity_CHOICESPTRV = (
-                (' 121000;121000;66000;66000', ' 121000;121000;66000;66000'),
-                ('121000;121000', '121000;121000'),
-                ('66000;66000', '66000;66000'),
+        Lock_Unlock_Remark = models.CharField(max_length=255, default='', blank=True)
+
+        RSD_Airboss_Mail = models.CharField(max_length=255, default='', blank=True)
+        Augment_ID = models.CharField(max_length=255, default='', blank=True)
+
+        Volte_Soft_CHOICES = (
+                ('WIP', 'WIP'),
+                ('Completed', 'Completed'),
+
+        )
+
+        Final_RSA_Status = models.CharField(max_length=255, choices=Volte_Soft_CHOICES, blank=True)
+
+        Volte_Soft_Latest_Software = (
+                ('Yes', 'Yes'),
+                ('No', 'No'),
                 ('NA', 'NA'),
         )
-        RTRV_SON_SO_status = models.CharField(max_length=255, default='',choices=Activity_CHOICESPTRV,blank=True)
 
-        Activity_CHOICESTi = (
-                ('PRTS', 'PRTS'),
-                ('TRAMS', 'TRAMS'),
-                ('NIMS', 'NIMS'),
-                ('NEO', 'NEO'),
-                ('PATROL', 'PATROL'),
+        Latest_Software_Version = models.CharField(max_length=255, choices=Volte_Soft_Latest_Software, blank=True)
+
+        Site_Unlock_Choice = (
+                ('Site', 'Site'),
+                ('Sector', 'Sector'),
+                ('Carrier', 'Carrier'),
         )
-        Ticket_Raised_For_Issue = models.CharField(max_length=255, default='',choices=Activity_CHOICESTi,blank=True)
-        Ticket_no = models.CharField(max_length=255, default='',blank=True)
+
+        Site_Unlock_Status = models.CharField(max_length=255, choices=Site_Unlock_Choice, blank=True)
+
+        Volte_Soft_CHOICES7 = (
+                ('Yes', 'Yes'),
+                ('No', 'No'),
+                ('NA', 'NA'),
+        )
+
+        Volte_Soft_Launch = models.CharField(max_length=255, choices=Volte_Soft_CHOICES7, blank=True)
+
+        Activity_CHOICESPTRV = (
+                ('FTW_Houston', 'FTW_Houston'),
+                ('KC_Atlanta', 'KC_Atlanta'),
+                ('Orlando_miami', 'Orlando_miami'),
+                ('NA', 'NA'),
+        )
+        MME_Pool = models.CharField(max_length=255, default='',choices=Activity_CHOICESPTRV,blank=True)
+
 
         Activity_CHOICESSV = (
                 ('Yes', 'Yes'),
                 ('No', 'No'),
-                ('Yes but incomplete data', 'Yes but incomplete data'),
+
         )
 
         TVW_Available = models.CharField(max_length=255, default='',choices=Activity_CHOICESSV,blank=True)
 
         Activity_CHOICESF = (
-                ('TVW Available in West Extract Database', 'TVW Available in West Extract Database'),
+
                 ('Yes', 'Yes'),
                 ('No', 'No'),
-                ('Rural Roaming Site. TVW not required.', 'Rural Roaming Site. TVW not required.'),
                 ('NA', 'NA'),
         )
         TVW_Available_FMCC_Database = models.CharField(max_length=255, default='',choices=Activity_CHOICESF,blank=True)
 
         Activity_CHOICESA = (
-                ('Task 3105 is Actualized', 'Task 3105 is Actualized'),
-                ('ACD Accepted', 'ACD Accepted'),
-                ('TVW Received from WEST', 'TVW Received from WEST'),
-                ('Ready for drive test', 'Ready for drive test'),
-                ('ACD Error', 'ACD Error'),
-                ('ACD Rejected', 'ACD Rejected'),
-                ('ACD Created', 'ACD Created'),
-                ('ACD Sent', 'ACD Sent'),
-                ('Blank', 'Blank'),
-                ('Rural Roaming Site. ACD not required.', 'Rural Roaming Site. ACD not required.'),)
+                ('Yes', 'Yes'),
+                ('No', 'No'),
 
+        )
         Acd_Status = models.CharField(max_length=255, default='',choices=Activity_CHOICESA,blank=True)
 
+        Notification_To_RSD_CHOICEST = (
+                ('Yes', 'Yes'),
+                ('No', 'No'),
+                ('NA', 'NA'),
+        )
+
+        Notification_To_RSD = models.CharField(max_length=255, default='', choices= Notification_To_RSD_CHOICEST, blank=True)
+
+
         Activity_CHOICEST = (
-                ('TVW Related Remarks', 'TVW Related Remarks'),
+                ('Individual email sent to RSD', 'Individual email sent to RSD'),
                 ('informational only, no action required', 'informational only, no action required'),
                 ('send completed ACD/TVW to West', 'send completed ACD/TVW to West'),
-                ('Upload Complete TVW file to SV', 'Upload Complete TVW file to SV'),
+
         )
 
         TVW_Related_Remarks = models.CharField(max_length=255, default='',choices=Activity_CHOICEST,blank=True)
 
 
-        Other_Remarks = models.CharField(max_length=255, default='',blank=True)
 
-        SV_Actualization = models.CharField(max_length=255, default='',blank=True)
-
-        CSMS = models.CharField(max_length=255, default='',blank=True)
-        FE_Name = models.CharField(max_length=255, default='',blank=True)
 
 
         Site_Status_pre_Activity_CHOICES4 = (
@@ -553,17 +554,11 @@ class RSATracker(models.Model):
         Site_Status_post_Activity = models.CharField(max_length=255, choices=Site_Status_post_Activity_CHOICES4, blank=True)
 
 
-        RET_CHOICES9 = (
-                ('Defined in LSM', 'Defined in LSM'),
-                ('Defined in BSM', 'Defined in BSM'),
-                ('NA', 'NA'),
-        )
-
-        RET = models.CharField(max_length=255, choices=RET_CHOICES9, blank=True)
 
         OAR_Date = models.DateField(null=True,blank=True)
         OAC_Date = models.DateField(null=True,blank=True)
-        Lock_Unlock_Verified_By = models.CharField(max_length=255, default='',blank=True)
+        LATP_Date = models.DateField(null=True, blank=True)
+        Site_Last_Logged_Date = models.DateField(null=True, blank=True)
         created_date = models.DateTimeField(default=timezone.now)
         Date = models.DateTimeField(null=True,blank=True)
         # date format %Y-%m-%d
