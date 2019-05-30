@@ -300,7 +300,7 @@ function freezerGetScrollbarWidth () {
             {% endif %}-->
             {% if user.is_authenticated %}
                 {% if user == item.admin %}
-                    <th class="fixed-side" scope="col">{% if user.is_staff %}<a href="{% url 'tracker_edit1' pk=item.pk %}" onclick=" window.open('{% url 'tracker_edit1' pk=item.pk %}', '_blank');return false;">{% endif %}{{ item.admin }}</a></th>
+                    <th class="fixed-side" scope="col">{% if user.is_staff %}<a href="{% url 'tracker_detail' pk=item.pk %}" onclick=" window.open('{% url 'tracker_detail' pk=item.pk %}', '_blank');return false;">{% endif %}{{ item.admin }}</a></th>
                 {% else %}
                     <th class="fixed-side" scope="col">{% if user.is_staff %}<a href="{% url 'tracker_edit' pk=item.pk %}" onclick=" window.open('{% url 'tracker_edit' pk=item.pk %}', '_blank');return false;">{% endif %}{{ item.admin }}</a></th>
                 {% endif %}
@@ -309,7 +309,7 @@ function freezerGetScrollbarWidth () {
             <td>{{item.Technology}}</td>
             {% if user.is_authenticated %}
                 {% if user == item.admin %}
-                    <th class="fixed-side" scope="col"><a href="{% url 'tracker_edit1' pk=item.pk %}"onclick=" window.open('{% url 'tracker_edit1' pk=item.pk %}', '_blank');return false;">{{item.Assignee}}</a></th>
+                    <th class="fixed-side" scope="col"><a href="{% url 'tracker_detail' pk=item.pk %}"onclick=" window.open('{% url 'tracker_detail' pk=item.pk %}', '_blank');return false;">{{item.Assignee}}</a></th>
                 {% else %}
                     <th class="fixed-side" scope="col"><a href="{% url 'tracker_edit' pk=item.pk %}" onclick=" window.open('{% url 'tracker_edit' pk=item.pk %}', '_blank');return false;">{{item.Assignee}}</a></th>
                 {% endif %}

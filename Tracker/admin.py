@@ -24,7 +24,7 @@ class RSATrackerAdmin(ImportExportModelAdmin):
 
     list_display = ('cascade', 'Technology', 'User_Name', 'created_date')
     fieldsets = [
-        ('Tracker Information', {'fields': ['User_Name','cascade','Technology', 'Type','Assignee', 'Bandwidth_Checked_From_LSM', 'Market', 'eNB', 'LSM', 'CSMS', 'FE_Name', 'Site_Status_pre_Activity', 'Site_Status_post_Activity','RET','OAR_Date','OAC_Date','Lock_Unlock_Verified_By','SV_Actualization','Other_Remarks','SiteType','Schedule_Name','Fail','Fail_Reason','RTRV_SON_SO_status','Ticket_Raised_For_Issue','Ticket_no','TVW_Available','TVW_Available_FMCC_Database','Acd_Status','TVW_Related_Remarks'], 'classes': ['collapse']}),
+        ('Tracker Information', {'fields': ['User_Name','cascade','Technology', 'Type','Assignee',  'Market', 'eNB', 'LSM', 'CSMS', 'FE_Name', 'Site_Status_pre_Activity', 'Site_Status_post_Activity','RET','OAR_Date','OAC_Date','Lock_Unlock_Verified_By','SV_Actualization','Other_Remarks','SiteType','Schedule_Name','Fail','Fail_Reason','RTRV_SON_SO_status','Ticket_Raised_For_Issue','Ticket_no','TVW_Available','TVW_Available_FMCC_Database','Acd_Status','TVW_Related_Remarks'], 'classes': ['collapse']}),
         ('Date Information', {'fields': ['created_date','Date']}),
     ]
     list_filter = ['created_date']
@@ -38,6 +38,7 @@ class RSATrackerAdmin(ImportExportModelAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     search_fields = ['user']
     list_display = ('user', 'birth_date')
+    list_filter = ['birth_date']
 
 admin.site.register(Samsung)
 

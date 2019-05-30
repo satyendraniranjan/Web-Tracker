@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from ericsson.forms import EricssonPostComTrackerForm,EricsssonRSATrackerForm
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
-from ericsson.models import EricssonPostComTracker, EricssonRSATracker
+from ericsson.models import EricssonPostComTracker, EricssonRSATracker, Ericsson_Count
 from django.http import HttpResponse
 import csv
 from django.db.models import Q
@@ -29,6 +29,7 @@ def ericssontracker_new(request):
         if form.is_valid():
             tracker = form.save(commit=False)
             tracker.admin = request.user
+            tracker.board = Ericsson_Count.objects.get(id=2)
             tracker.created_date = timezone.now()
             tracker.save()
             return redirect('ericssontracker_list')
@@ -53,6 +54,8 @@ def ericssontracker_edit(request, pk):
         if form.is_valid():
             tracker = form.save(commit=False)
             tracker.admin = request.user
+            tracker.board = Ericsson_Count.objects.get(id=2)
+            tracker.board = Ericsson_Count.objects.get(id=2)
             tracker.created_date = timezone.now()
             tracker.save()
             return redirect('ericssontracker_list')
@@ -69,6 +72,7 @@ def ericssontracker_edit1(request, pk):
         if form.is_valid():
             tracker = form.save(commit=False)
             tracker.admin = request.user
+            tracker.board = Ericsson_Count.objects.get(id=2)
             tracker.created_date = timezone.now()
             tracker.save()
             return redirect('ericssontracker_list')
@@ -124,6 +128,7 @@ def ericssonrsatracker_new(request):
         if form.is_valid():
             rsatracker = form.save(commit=False)
             rsatracker.admin = request.user
+            rsatracker.board = Ericsson_Count.objects.get(id=2)
             rsatracker.created_date = timezone.now()
             rsatracker.save()
             return redirect('ericssonrsatracker_list')
@@ -138,7 +143,7 @@ def ericssonrsatracker_list(request):
         context = {
             'latest_tracker_list': latest_tracker_list,
        }
-        return render(request, 'rsaericsson/ericsssonrsatracker_list.html', context)
+        return render(request, 'ericsson/rsaericsson/ericssonrsatracker_list.html', context)
 
 def ericssonExportRsaTracker(request):
     # Create the HttpResponse object with the appropriate CSV header.
@@ -146,11 +151,11 @@ def ericssonExportRsaTracker(request):
     response['Content-Disposition'] = 'attachment; filename="RSATracker.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['System Date','User Date','User Name','cascade','Technology','Assignee', 'Type', 'Bandwidth_Checked_From_LSM', 'Market', 'eNB', 'LSM', 'CSMS', 'FE_Name','Site_Status_pre_Activity', 'Site_Status_post_Activity','RET','OAR_Date','OAC_Date','Lock_Unlock_Verified_By','SV_Actualization','Other_Remarks','SiteType','Schedule_Name','Fail','Fail_Reason','RTRV_SON_SO_status','Ticket_Raised_For_Issue','Ticket_no','TVW_Available','TVW_Available_FMCC_Database','Acd_Status','TVW_Related_Remarks'])
+    writer.writerow(['System Date','User Date','User Name','Assignee','cascade','Market','Technology', 'eNodeB_Name/Cell ID', 'ENM','LATP Complete Date','MME Pool form Appian','IP Adress OAM','Remark','RSA Holdup Reason', 'Site Last Logged in Date', 'Volte Soft Launch','Site Pre-Conditions', 'Site Post-Conditions','OAR_Date','OAC_Date','RSA Final STATUS','Latest Software Version','Sector/Site Unlock status','LOCK/Unlock Remarks','TVW available/actualized in SV','TVW available in FMCC Database','ACD Status','TVW/ACD Notification sent to RSD','Remarks to RSD','RSD email ID','Augment ID'])
 
     latest_tracker_list1 = EricssonRSATracker.objects.order_by('-created_date')
     for item in latest_tracker_list1:
-        writer.writerow([item.created_date,item.Date,item.User_Name,item.cascade, item.Technology,item.Assignee, item.Type, item.Bandwidth_Checked_From_LSM, item.Market, item.eNB, item.LSM, item.CSMS, item.FE_Name,item.Site_Status_pre_Activity, item.Site_Status_post_Activity,item.RET,item.OAR_Date,item.OAC_Date,item.Lock_Unlock_Verified_By,item.SV_Actualization,item.Other_Remarks,item.SiteType,item.Schedule_Name,item.Fail,item.Fail_Reason,item.RTRV_SON_SO_status,item.Ticket_Raised_For_Issue,item.Ticket_no,item.TVW_Available,item.TVW_Available_FMCC_Database,item.Acd_Status,item.TVW_Related_Remarks])
+        writer.writerow([item.created_date,item.Date,item.admin,item.Assignee,item.cascade,item.Market, item.Technology, item.eNB, item.ENM, item.LATP_Date,item.MME_Pool,item.IP_OAM,item.Remark,item.RSA_Hold_Reason,item.Site_Last_Logged_Date, item.Volte_Soft_Launch ,item.Site_Status_pre_Activity, item.Site_Status_post_Activity,item.OAR_Date,item.OAC_Date,item.Final_RSA_Status,item.Latest_Software_Version,item.Site_Unlock_Status,item.TVW_Available,item.TVW_Available_FMCC_Database,item.Acd_Status,item.Notification_To_RSD,item.TVW_Related_Remarks,item.RSD_Airboss_Mail,item.Augment_ID])
 
     return response
 
@@ -186,6 +191,7 @@ def ericssonrsatracker_edit(request, pk):
         if form.is_valid():
             tracker = form.save(commit=False)
             tracker.User_Name = request.user
+            tracker.board = Ericsson_Count.objects.get(id=2)
             tracker.created_date = timezone.now()
             tracker.save()
             return redirect('ericssonrsatracker_list')
@@ -202,6 +208,7 @@ def ericssonrsatracker_edit1(request, pk):
         if form.is_valid():
             tracker = form.save(commit=False)
             tracker.User_Name = request.user
+            tracker.board = Ericsson_Count.objects.get(id=2)
             tracker.created_date = timezone.now()
             tracker.save()
             return redirect('ericssonrsatracker_list')

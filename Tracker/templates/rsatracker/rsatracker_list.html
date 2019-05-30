@@ -299,18 +299,15 @@ function freezerGetScrollbarWidth () {
             <td>{{item.Schedule_Name}}</td>
             {% if user.is_authenticated %}
                 {% if user == item.User_Name %}
-                    <td >{% if user.is_staff %}<a href="{% url 'rsatracker_edit1' pk=item.pk %}">{% endif %}{{ item.User_Name }}</a></td>
+                    <td >{% if user.is_staff %}<a href="{% url 'rsatracker_detail' pk=item.pk %}">{% endif %}{{ item.User_Name }}</a></td>
                 {% else %}
                     <td>{% if user.is_staff %}<a href="{% url 'rsatracker_edit' pk=item.pk %}">{% endif %}{{ item.User_Name }}</a></td>
                 {% endif %}
             {% endif %}
-            <!--<th><a class="btn btn-default" href="{% url 'tracker_edit1' pk=item.pk %}"><p>Edit User: <span class="glyphicon glyphicon-pencil"></span></p></a></th>-->
-            <!--<th><a class="btn btn-default" href="{% url 'tracker_edit' pk=item.pk %}"><p>Edit Team:<span class="glyphicon glyphicon-pencil"></span></p></a></th>-->
-            <!--<th class="fixed-side" scope="col"><a href="{% url 'tracker_detail' pk=item.pk %}">{{ item.admin }}</a></th>-->
 
             {% if user.is_authenticated %}
                 {% if user == item.User_Name %}
-                    <td><a href="{% url 'rsatracker_edit1' pk=item.pk %}">{{item.Assignee}}</a></td>
+                    <td><a href="{% url 'rsatracker_detail' pk=item.pk %}">{{item.Assignee}}</a></td>
                 {% else %}
                     <td><a href="{% url 'rsatracker_edit' pk=item.pk %}">{{item.Assignee}}</a></td>
                 {% endif %}

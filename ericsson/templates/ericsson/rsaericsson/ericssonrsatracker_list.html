@@ -192,8 +192,8 @@ function freezerGetScrollbarWidth () {
 #freezer-example .table col { width:100px; }
 </style>
 
-<p style="text-align: center; font-size: 20px;color: black;">Post-Com Tracker
-<a style="color: #0000A0;" class="download_link" href="{% url 'ericssonexport' %}">Export</a></p>
+<p style="text-align: center; font-size: 20px;color: black;">RSA Tracker
+<a style="color: #0000A0;" class="download_link" href="{% url 'ericssonExportRsaTracker' %}">Export</a></p>
 
 
 <div class="container" style="margin-top:50px;">
@@ -206,7 +206,7 @@ function freezerGetScrollbarWidth () {
 
   <table class="table table-condensed table-freeze-multi table-bordered" style="font-size:11px; font-weight: bold; font-family: Arial; color:black;"
     data-scroll-height="500"
-    data-cols-number="" >
+    data-cols-number=" " >
     <colgroup>
       <col>
       <col>
@@ -237,9 +237,7 @@ function freezerGetScrollbarWidth () {
       <col>
       <col>
       <col>
-      <col>
-      <col>
-      <col>
+
     </colgroup>
       <thead>
         <tr>
@@ -248,33 +246,32 @@ function freezerGetScrollbarWidth () {
             <th rowspan="4">User Name</th>
             <th rowspan="4">Assignee</th>
             <th rowspan="4">Cascade</th>
-            <th rowspan="4">eNB/BTS</th>
-            <th rowspan="4">Technology</th>
-            <th rowspan="4">ENM</th>
-            <th rowspan="4">IP OAM</th>
             <th rowspan="4">Market</th>
-            <th rowspan="4">Volte Soft</th>
-            <th rowspan="4">CSMS</th>
-            <th rowspan="4">Tech On Field</th>
-            <th rowspan="4">Tech Email</th>
-            <th rowspan="4">Tech Contact</th>
-            <th rowspan="4">CIC Airboss Mail</th>
-            <th rowspan="4">RSD Airboss Mail</th>
-            <th rowspan="4">RSA Manager Mail</th>
-            <th rowspan="4">Construction Manager Mail</th>
-            <th rowspan="4">Activity</th>
-            <th rowspan="4">Activity Progress</th>
-            <th rowspan="4">Secondary Fiber check</th>
-            <th rowspan="4">Site Status before Activity</th>
-            <th rowspan="4">Site Status after Activity</th>
-            <th rowspan="4">KPI Profile</th>
-            <th rowspan="4">Remark</th>
-            <th rowspan="4">Revisit Required</th>
-            <th rowspan="4">Revisit</th>
-            <th rowspan="4">Cell State pre Activity</th>
-            <th rowspan="4">Cell State post Activity</th>
+            <th rowspan="4">Technology</th>
+            <th rowspan="4">eNB/BTS</th>
+            <th rowspan="4">ENM</th>
+            <th rowspan="4">LATP Complete Date</th>
+            <th rowspan="4">MME Pool form Appian</th>
+            <th rowspan="4">IP Adress OAM</th>
+            <th rowspan="4">RSA Holdup Reason</th>
+            <th rowspan="4">Site Last Logged in Date</th>
+            <th rowspan="4">Volte Soft Launch</th>
+            <th rowspan="4">Site Pre-Conditions</th>
+            <th rowspan="4">Site Post-Conditions</th>
             <th rowspan="4">OAR Date</th>
             <th rowspan="4">OAC Date</th>
+            <th rowspan="4">RSA Final STATUS</th>
+            <th rowspan="4">Latest Software Version</th>
+            <th rowspan="4">Sector/Site Unlock status</th>
+            <th rowspan="4">LOCK/Unlock Remarks</th>
+            <th rowspan="4">TVW available/actualized in SV</th>
+            <th rowspan="4">TVW available in FMCC Database</th>
+            <th rowspan="4">ACD Status</th>
+            <th rowspan="4">TVW/ACD Notification sent to RSD</th>
+            <th rowspan="4">Remarks to RSD</th>
+            <th rowspan="4">RSD email ID</th>
+            <th rowspan="4">Augment ID</th>
+
 
         </tr>
       </thead>
@@ -284,49 +281,49 @@ function freezerGetScrollbarWidth () {
 
              <th class="fixed-side" scope="col">{{item.created_date}}</th>
             <th class="fixed-side" scope="col">{{item.Date}}</th>
-            <th class="fixed-side" scope="col">{% if user.is_staff %}<a href="{% url 'tracker_edit1' pk=item.pk %}" onclick=" window.open('{% url 'tracker_edit1' pk=item.pk %}', '_blank');return false;">{% endif %}{{ item.admin }}</a></th>
+                {% if user == item.admin %}
+                    <th class="fixed-side" scope="col"><a href="{% url 'tracker_edit1' pk=item.pk %}">{{item.admin}}</a></th>
+                {% else %}
+                    <th class="fixed-side" scope="col"><a href="{% url 'tracker_edit' pk=item.pk %}">{{item.admin}}</a></th>
+                {% endif %}
 
-            <!--<th><a class="btn btn-default" href="{% url 'tracker_edit1' pk=item.pk %}"><p>Edit User: <span class="glyphicon glyphicon-pencil"></span></p></a></th>-->
-            <!--<th><a class="btn btn-default" href="{% url 'tracker_edit' pk=item.pk %}"><p>Edit Team:<span class="glyphicon glyphicon-pencil"></span></p></a></th>-->
-            <!--<th class="fixed-side" scope="col"><a href="{% url 'tracker_detail' pk=item.pk %}">{{ item.admin }}</a></th>-->
 
-
-
-            {% if user.is_authenticated %}
                 {% if user == item.admin %}
                     <th class="fixed-side" scope="col"><a href="{% url 'tracker_edit1' pk=item.pk %}">{{item.Assignee}}</a></th>
                 {% else %}
                     <th class="fixed-side" scope="col"><a href="{% url 'tracker_edit' pk=item.pk %}">{{item.Assignee}}</a></th>
                 {% endif %}
-            {% endif %}
-            <th class="fixed-side" scope="col">{{item.cascade}}</th>
-            <td>{{item.eNB}}</td>
-            <th class="fixed-side" scope="col">{{item.Technology}}</th>
-            <td>{{item.ENM}}</td>
-            <td>{{item.IP_OAM}}</td>
+
+            <th >{{item.cascade}}</th>
             <td>{{item.Market}}</td>
-            <td>{{item.Volte_Soft}}</td>
-            <td>{{item.CSMS}}</td>
-            <td>{{item.FE_Name}}</td>
-            <td>{{item.FE_Mail}}</td>
-            <td>{{item.FE_Contact}}</td>
-            <td>{{item.CIC_Airboss_Mail}}</td>
-            <td>{{item.RSD_Airboss_Mail}}</td>
-            <td>{{item.RSD_Manager_Mail}}</td>
-            <td>{{item.Construction_Manager_Mail}}</td>
-            <td>{{item.Activity}}</td>
-            <td>{{item.Activity_status}}</td>
-            <td>{{item.Secondary_Fibre_check}}</td>
+            <th>{{item.Technology}}</th>
+            <td>{{item.eNB}}</td>
+            <td>{{item.ENM}}</td>
+            <td>{{item.LATP_Date}}</td>
+
+            <td>{{item.MME_Pool}}</td>
+            <td>{{item.IP_OAM}}</td>
+            <td>{{item.Remark}}</td>
+            <td>{{item.RSA_Hold_Reason}}</td>
+            <td>{{item.Site_Last_Logged_Date}}</td>
+            <td>{{item.Volte_Soft_Launch}}</td>
             <td>{{item.Site_Pre_Status}}</td>
             <td>{{item.Site_Post_Status}}</td>
-            <td>{{item.Kpi_Profile}}</td>
-            <td>{{item.Remarks}}</td>
-            <td>{{item.Revisit_Required}}</td>
-            <td>{{item.Revisit}}</td>
-            <td>{{item.Site_Status_pre_Activity}}</td>
-            <td>{{item.Site_Status_post_Activity}}</td>
             <td>{{item.OAR_Date}}</td>
             <td>{{item.OAC_Date}}</td>
+            <td>{{item.Final_RSA_Status}}</td>
+            <td>{{item.Latest_Software_Version}}</td>
+            <td>{{item.Site_Unlock_Status}}</td>
+            <td>{{item.TVW_Available}}</td>
+            <td>{{item.TVW_Available_FMCC_Database}}</td>
+            <td>{{item.Acd_Status}}</td>
+
+            <td>{{item.Notification_To_RSD}}</td>
+            <td>{{item.TVW_Related_Remarks}}</td>
+            <td>{{item.RSD_Airboss_Mail}}</td>
+            <td>{{item.Augment_ID}}</td>
+
+
 
 
         </tr>

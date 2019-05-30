@@ -441,14 +441,89 @@ class EricssonRSATracker(models.Model):
         Market = models.CharField(max_length=255, choices=market,blank=True)
 
         eNB = models.CharField(max_length=255, default='', blank=True)
-        ENM = models.CharField(max_length=255, default='', blank=True)
+
+        ENM_CHOICES = (
+                ('ATL01', 'ATL01'),
+                ('FTW02', 'FTW02'),
+                ('FTW03', 'FTW03'),
+
+        )
+
+        ENM = models.CharField(max_length=255,choices=ENM_CHOICES, blank=True)
         IP_OAM = models.CharField(max_length=255, default='', blank=True)
         RSA_Hold_Reason = models.CharField(max_length=255, default='', blank=True)
         Remark = models.CharField(max_length=255, default='', blank=True)
 
         Lock_Unlock_Remark = models.CharField(max_length=255, default='', blank=True)
 
-        RSD_Airboss_Mail = models.CharField(max_length=255, default='', blank=True)
+        RSD_Airboss_choices = (
+                ('Kevin.2.Ryan@sprint.com', 'Kevin.2.Ryan@sprint.com'),
+                ('Kristin.Nickerson@sprint.com', 'Kristin.Nickerson@sprint.com'),
+                ('Michael.Ochieng@sprint.com', 'Michael.Ochieng@sprint.com'),
+                ('Mary.Gillihan@sprint.com', 'Mary.Gillihan@sprint.com'),
+                ('Denise.Rhoads@sprint.com', 'Denise.Rhoads@sprint.com'),
+                ('Beverly.Pass@sprint.com', 'Beverly.Pass@sprint.com'),
+                ('Jannifer.Lancaster@sprint.com', 'Jannifer.Lancaster@sprint.com'),
+                ('David.Myrsten@sprint.com', 'David.Myrsten@sprint.com'),
+                ('Lorenzo.Benton@sprint.com', 'Lorenzo.Benton@sprint.com'),
+                ('Jeff.Dominge@sprint.com', 'Jeff.Dominge@sprint.com'),
+                ('Jared.Merringer@sprint.com', 'Jared.Merringer@sprint.com'),
+                ('Janice.Cook@sprint.com', 'Janice.Cook@sprint.com'),
+                ('Michael.2.Nigro@sprint.com', 'Michael.2.Nigro@sprint.com'),
+                ('Alejandro.Luna@sprint.com', 'Alejandro.Luna@sprint.com'),
+                ('Timothy.Somers@sprint.com', 'Timothy.Somers@sprint.com'),
+                ('Barry.Ragsdale@sprint.com', 'Barry.Ragsdale@sprint.com'),
+                ('Edward.2.Smith@sprint.com', 'Edward.2.Smith@sprint.com'),
+                ('John.Karkoska@sprint.com', 'John.Karkoska@sprint.com'),
+                ('Lisa.Backman@sprint.com', 'Lisa.Backman@sprint.com'),
+                ('Kenneth.Compton@sprint.com', 'Kenneth.Compton@sprint.com'),
+                ('James.Humberson@sprint.com', 'James.Humberson@sprint.com'),
+                ('everett.ison@sprint.com', 'everett.ison@sprint.com'),
+                ('William.Card@sprint.com', 'William.Card@sprint.com'),
+                ('Carl.Merritt@sprint.com', 'Carl.Merritt@sprint.com'),
+                ('Claude.Carder@sprint.com', 'Claude.Carder@sprint.com'),
+                ('Donald.Pestuglicci@sprint.co', 'Donald.Pestuglicci@sprint.co'),
+                ('Nathan.2.Lancaster@sprint.c', 'Nathan.2.Lancaster@sprint.c'),
+                ('LA Metro', 'LA Metro'),
+                ('Jason.Hughes@sprint.com', 'Jason.Hughes@sprint.com'),
+                ('William.Scott@sprint.com', 'William.Scott@sprint.com'),
+                ('Jeffrey.Brannan@sprint.com', 'Jeffrey.Brannan@sprint.com'),
+                ('Thomas.Poitras@sprint.com', 'Thomas.Poitras@sprint.com'),
+                ('Ronald.2.Morese@sprint.com', 'Ronald.2.Morese@sprint.com'),
+                ('Keith.L.Lee@sprint.com', 'Keith.L.Lee@sprint.com'),
+                ('Jesus.Machado@sprint.com', 'Jesus.Machado@sprint.com'),
+                ('Terry.Stanford@sprint.com', 'Terry.Stanford@sprint.com'),
+                ('Kristen.A.Moore@sprint.com', 'Kristen.A.Moore@sprint.com'),
+                ('Dean.Spacone@sprint.com', 'Dean.Spacone@sprint.com'),
+                ('Richard.Helmbright@sprint.com', 'Richard.Helmbright@sprint.com'),
+                ('Dwayne.Baker@sprint.com', 'Dwayne.Baker@sprint.com'),
+                ('Brian.Goretcki@sprint.com', 'Brian.Goretcki@sprint.com'),
+                ('Erskine.Heatherley@sprint.com', 'Erskine.Heatherley@sprint.com'),
+                ('Elizabeth.Riola@sprint.com', 'Elizabeth.Riola@sprint.com'),
+                ('James.3.Moore@sprint.com', 'James.3.Moore@sprint.com'),
+                ('Sidney.Pollard@sprint.com', 'Sidney.Pollard@sprint.com'),
+                ('Matthew.Spiak@sprint.com', 'Matthew.Spiak@sprint.com'),
+                ('Jeffrey.Wagner@sprint.com', 'Jeffrey.Wagner@sprint.com'),
+                ('Michael.Moore@sprint.com', 'Michael.Moore@sprint.com'),
+                ('Scott.Schultz@sprint.com', 'Scott.Schultz@sprint.com'),
+                ('Jerry.Smith@sprint.com', 'Jerry.Smith@sprint.com'),
+                ('James.Breakey@sprint.com', 'James.Breakey@sprint.com'),
+                ('Brock.Hurlbert@sprint.com', 'Brock.Hurlbert@sprint.com'),
+                ('Edward.T.Tudor@sprint.com', 'Edward.T.Tudor@sprint.com'),
+                ('Ronald.Recine@sprint.com', 'Ronald.Recine@sprint.com'),
+                ('Arnold.Neugaard@sprint.com', 'Arnold.Neugaard@sprint.com'),
+                ('Logan.X.Hall@sprint.com', 'Logan.X.Hall@sprint.com'),
+                ('Gregory.Plante@sprint.com', 'Gregory.Plante@sprint.com'),
+                ('Scott.Hanks@sprint.com', 'Scott.Hanks@sprint.com'),
+                ('Nasim.Raza@sprint.com', 'Nasim.Raza@sprint.com'),
+                ('Adam.Shelton@sprint.com', 'Adam.Shelton@sprint.com'),
+                ('blaine.rubenacker@sprint.com', 'blaine.rubenacker@sprint.com'),
+                ('Paula.Staver@sprint.com', 'Paula.Staver@sprint.com'),
+                ('Curtis.Eberspacher@sprint.com', 'Curtis.Eberspacher@sprint.com'),
+
+        )
+
+        RSD_Airboss_Mail = models.EmailField(max_length=255, choices= RSD_Airboss_choices, blank=True)
         Augment_ID = models.CharField(max_length=255, default='', blank=True)
 
         Volte_Soft_CHOICES = (

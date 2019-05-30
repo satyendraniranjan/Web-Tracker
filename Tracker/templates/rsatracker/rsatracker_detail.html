@@ -1,0 +1,54 @@
+{% extends 'tracker/trackerbase.html' %}
+
+{% block content %}
+
+
+<style>
+
+
+ .tracker {
+    background: beige;
+}
+
+</style>
+
+
+
+    <div class="tracker" style="">
+        {% if tracker.created_date %}
+            <div class="date">
+                <p>{{ tracker.created_date }}</p>
+                <p>{{ tracker.Assignee }}</p>
+            </div>
+        {% endif %}
+
+        <div class="row" >
+            <div class="col-md-3" style="text-align: center; ">
+                <div class="row" style="margin-left: auto;padding: inherit; font-size: larger;">
+                    <p>{{ 'Edit:Only' }}</p>
+                </div>
+                <div class="row" style="text-align: -webkit-left;margin-left: inherit;padding: inherit;">
+                     {% if user.is_authenticated %}
+                     {% if user == tracker.Assignee %}
+                     <th><button><a  href="{% url 'rsatracker_edit1' pk=tracker.pk %}"><p>Edit User: </p></a></button></th>
+                     {% endif %}
+                     {% endif %}
+                </div>
+            </div>
+            <div class="col-md-3" style="text-align: center; ">
+            <div class="row" style="margin-left: auto;padding: inherit; font-size: larger;">
+                    <p>{{ 'Edit:For New Entry'}}</p>
+                </div>
+                <div class="row" style="text-align: -webkit-left;margin-left: inherit;padding: inherit;">
+                     {% if user.is_authenticated %}
+                     {% if user == tracker.Assignee %}
+                    <th><button><a  href="{% url 'rsatracker_edit' pk=tracker.pk %}"><p>Edit Team:</p></a></button></th>
+                     {% endif %}
+                     {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <p>{{ tracker.text|linebreaksbr }}</p>
+    </div>
+{% endblock %}

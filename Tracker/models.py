@@ -286,7 +286,7 @@ class Tracker(models.Model):
                 ('NA', 'N/A'),
         )
 
-        Site_Status_post_Activity = models.CharField(max_length=255, choices=Site_Status_post_Activity_CHOICES4, blank=True)
+        Site_Status_post_Activity = models.CharField(max_length=255, choices=Site_Status_post_Activity_CHOICES4, blank=True,null=True)
 
         E_Link_Status_of_BH0_for_CDU30_CHOICES12 = (
                 ('On', 'On'),
@@ -295,7 +295,7 @@ class Tracker(models.Model):
 
         )
 
-        E_Link_Status_of_BH0_for_CDU30 = models.CharField(max_length=255, choices=E_Link_Status_of_BH0_for_CDU30_CHOICES12, blank=True)
+        E_Link_Status_of_BH0_for_CDU30 = models.CharField(max_length=255, choices=E_Link_Status_of_BH0_for_CDU30_CHOICES12, blank=True,null=True)
 
 
         MJ_Object_Marked_CHOICES11 = (
@@ -305,7 +305,7 @@ class Tracker(models.Model):
 
         )
 
-        MJ_Object_Marked = models.CharField(max_length=255, choices=MJ_Object_Marked_CHOICES11,blank=True)
+        MJ_Object_Marked = models.CharField(max_length=255, choices=MJ_Object_Marked_CHOICES11,blank=True,null=True)
 
         RET_CHOICES9 = (
                 ('Defined Matched', 'Defined/Matched'),
@@ -314,7 +314,7 @@ class Tracker(models.Model):
                 ('NA', 'NA'),
         )
 
-        RET = models.CharField(max_length=255, choices=RET_CHOICES9, blank=True)
+        RET = models.CharField(max_length=255, choices=RET_CHOICES9, blank=True,null=True)
 
         Alarms_Preventing_RET_Config = models.CharField(max_length=255, default='', blank=True)
 
@@ -324,7 +324,7 @@ class Tracker(models.Model):
                 ('Not Required', 'Not Required'),
         )
 
-        Frequency_Earfcn_Checked_from_LSM_BSM = models.CharField(max_length=255, choices=Frequency_Earfcn_Checked_from_LSM_BSM_CHOICES7, blank=True)
+        Frequency_Earfcn_Checked_from_LSM_BSM = models.CharField(max_length=255, choices=Frequency_Earfcn_Checked_from_LSM_BSM_CHOICES7, blank=True,null=True)
 
         IP_Route_or_IP_Address = models.CharField(max_length=255, default='',blank=True)
         Volte_MME_IP_Config = models.CharField(max_length=255, default='',blank=True)
@@ -354,7 +354,7 @@ class Tracker(models.Model):
             return self.cascade
 
 
-from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
+
 
 class RSATracker(models.Model):
         User_Name = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,default='')
@@ -602,16 +602,15 @@ class RSATracker(models.Model):
         def __str__(self):
             return self.cascade
 
+
+""""
+
         def save(self, *args, **kwargs):
                 self.full_clean()  # performs regular validation then clean()
                 super(RSATracker, self).save(*args, **kwargs)
 
         def clean(self):
-                """
-                Custom validation (read docs)
-                PS: why do you have null=True on charfield?
-                we could avoid the check for name
-                """
+                
 
                 if self.cascade:
                         self.cascade = self.cascade.strip()
@@ -623,6 +622,7 @@ class RSATracker(models.Model):
                         self.Type = self.Type.strip()
                 if self.Market:
                         self.Market = self.Market.strip()
+
 
 
 def validate_artist_name_choice(sender, instance, **kwargs):
@@ -650,7 +650,7 @@ def validate_artist_name_choice(sender, instance, **kwargs):
                                 instance.Market,
                                 ', '.join(valid_types)))
 
-        """"
+        
     
         valid_types = [t[0] for t in sender.sitetype_CHOICESPTRV]
         if instance.SiteType not in valid_types:
@@ -709,5 +709,5 @@ def validate_artist_name_choice(sender, instance, **kwargs):
                                 ', '.join(valid_types)))"""
 
 
-models.signals.pre_save.connect(validate_artist_name_choice, sender=RSATracker)
+#models.signals.pre_save.connect(validate_artist_name_choice, sender=RSATracker)
 

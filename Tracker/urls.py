@@ -14,14 +14,13 @@ path('tracker/calculator/', views.Calc_link, name='Calc_link'),
 path('tracker/search', views.search, name='search'),
 path('tracker/about', views.about, name='about'),
 url(r'^password/$', views.change_password, name='change_password'),
-#path('assignment/new', views.assignment_new, name='assignment_new'),
-path('assignment/<int:pk>/edit/', views.assignment_edit, name='assignment_edit'),
-path('assignment/<int:pk>/', views.assignment_detail, name='assignment_detail'),
-path('assignment_list', views.assignment_list, name='assignment_list'),
+
+
 path('password_change_complete', views.password_change_complete, name='password_change_complete'),
-path('contact_form', views.contact_form, name='contact_form'),
+
 path('rsatracker/new', views.rsatracker_new, name='rsatracker_new'),
 path('rsatracker_list', views.rsatracker_list, name='rsatracker_list'),
+path('rsatracker/<int:pk>/', views.rsatracker_detail, name='rsatracker_detail'),
 url(r'^exportrsatracker/csv/$', views.ExportRsaTracker, name='ExportRsaTracker'),
 url(r'^exportrsasearchtracker/$', views.ExportRsaTracker1, name='ExportRsaTracker1'),
 path('rsasearch', views.rsasearch, name='rsasearch'),

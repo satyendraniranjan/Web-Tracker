@@ -37,7 +37,7 @@ def tracker_list(request):
 #        return render(request, 'registration/login.html')
 #    else:
 #        posts = Tracker.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-        latest_tracker_list = Tracker.objects.order_by('-created_date')
+        latest_tracker_list = Tracker.objects.order_by('-created_date')[:150]
         context = {
             'latest_tracker_list': latest_tracker_list,
        }
@@ -45,18 +45,6 @@ def tracker_list(request):
 
 
 
-@login_required
-def assignment_list(request):
-
-#    if not request.user.is_authenticated:
-#        return render(request, 'registration/login.html')
-#    else:
-#        posts = Tracker.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-        latest_assignment_list = Assignment.objects.order_by('-created_date')
-        context = {
-            'latest_assignment_list': latest_assignment_list,
-       }
-        return render(request, 'assignment/assignment_list.html', context)
 
 @login_required
 def tracker_new(request):
@@ -89,30 +77,9 @@ else:"""
 
 
 @login_required
-def assignment_detail(request, pk):
-    assignment = get_object_or_404(Assignment, pk=pk)
-    return render(request, 'assignment/assignment_detail.html', {'assignment': assignment})
-
-@login_required
-def assignment_edit(request, pk):
-    assignment = get_object_or_404(Assignment, pk=pk)
-    if request.method == "POST":
-        form = AssignmentForm(request.POST, instance=assignment)
-#        form = TrackerForm(request.POST)
-        if form.is_valid():
-            assignment = form.save(commit=False)
-            assignment.admin = request.user
-            assignment.created_date = timezone.now()
-            assignment.save()
-            return redirect('assignment_list')
-    else:
-        form = AssignmentForm(instance=assignment)
-    return render(request, 'assignment/assignment_edit.html', {'form': form})
-
-@login_required
 def tracker_detail(request, pk):
     tracker = get_object_or_404(Tracker, pk=pk)
-    return render(request, 'tracker/tracker_list.html', {'tracker': tracker})
+    return render(request, 'tracker/tracker_detail.html', {'tracker': tracker})
 
 
 @login_required
@@ -177,6 +144,18 @@ def some_view1(request):
     return response
 
 
+import csv
+from Tracker.models import Tracker
+
+def load_drugs(file_path):
+    "this loads drugs from pipe delimited file with headers"
+    reader = csv.DictReader(open(file_path))
+    for row in reader:
+        drug = Tracker(Assignee=row['Assignee'], cascade=row['cascade'])
+        drug.save()
+
+
+
 
 def Calc_link(request):
 
@@ -207,7 +186,7 @@ def search(request):
 
 
 def about(request):
-    return render(request, 'tracker/about.html')
+    return render(request, 'tracker/about1.html')
 
 
 
@@ -230,17 +209,7 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     return render(request, 'registration/change_password.html', {'form': form})
 
-def contact_form(request):
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = ContactForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-                pass
 
-    else:
-        form = ContactForm()
-    return render(request, 'tracker/name.html', {'form': form})
 
 
 def export(request):
@@ -284,11 +253,21 @@ def rsatracker_new(request):
 
 @login_required
 def rsatracker_list(request):
-        latest_tracker_list = RSATracker.objects.order_by('-created_date')
+        latest_tracker_list = RSATracker.objects.order_by('-created_date')[:150]
         context = {
             'latest_tracker_list': latest_tracker_list,
        }
         return render(request, 'rsatracker/rsatracker_list.html', context)
+
+
+@login_required
+def rsatracker_detail(request, pk):
+    tracker = get_object_or_404(RSATracker, pk=pk)
+    return render(request, 'rsatracker/rsatracker_detail.html', {'tracker': tracker})
+
+
+
+
 
 def ExportRsaTracker(request):
     # Create the HttpResponse object with the appropriate CSV header.
@@ -390,27 +369,3 @@ def rsatracker_edit1(request, pk):
     return render(request, 'rsatracker/rsatracker_edit.html', {'form': form})
 
 
-
-"""def rsaexport(request):
-    person_resource = TrackerResource()
-    dataset = person_resource.export()
-    response = HttpResponse(dataset.csv, content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="persons.csv"'
-    return response
-
-
-from tablib import Dataset
-
-def rsasimple_upload(request):
-    if request.method == 'POST':
-        person_resource = TrackerResource()
-        dataset = Dataset()
-        new_persons = request.FILES['myfile']
-
-        imported_data = dataset.load(new_persons.read())
-        result = person_resource.import_data(dataset, dry_run=True)  # Test the data import
-
-        if not result.has_errors():
-            person_resource.import_data(dataset, dry_run=False)  # Actually import now
-
-    return render(request, 'core/rsasimple_upload.html')"""
